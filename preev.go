@@ -16,8 +16,6 @@ fmt.Println("Found Active Pair(s):", pairs.BsvUsd.Name)
 package preev
 
 import (
-	"bytes"
-	"io"
 	"io/ioutil"
 	"net/http"
 )
@@ -30,32 +28,18 @@ func NewClient(clientOptions *Options) *Client {
 // Request is a generic request wrapper that can be used without constraints
 func (c *Client) Request(url string, method string, payload []byte) (response string, err error) {
 
-	// Set reader
-	var bodyReader io.Reader
-
-	// Add post data if applicable
-	if method == http.MethodPost || method == http.MethodPut {
-		bodyReader = bytes.NewBuffer(payload)
-		c.LastRequest.PostData = string(payload)
-	}
-
 	// Store for debugging purposes
 	c.LastRequest.Method = method
 	c.LastRequest.URL = url
 
 	// Start the request
 	var request *http.Request
-	if request, err = http.NewRequest(method, url, bodyReader); err != nil {
+	if request, err = http.NewRequest(method, url, nil); err != nil {
 		return
 	}
 
 	// Change the header (user agent is in case they block default Go user agents)
 	request.Header.Set("User-Agent", c.UserAgent)
-
-	// Set the content type on Method
-	if method == http.MethodPost || method == http.MethodPut {
-		request.Header.Set("Content-Type", "application/json")
-	}
 
 	// Fire the http request
 	var resp *http.Response

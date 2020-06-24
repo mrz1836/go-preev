@@ -17,12 +17,6 @@ func (c *Client) GetPairs() (pairList *PairList, err error) {
 		return
 	}
 
-	// Status was not as expected?
-	if c.LastRequest.StatusCode != http.StatusOK {
-		err = fmt.Errorf("error from Preev: %s", resp)
-		return
-	}
-
 	err = json.Unmarshal([]byte(resp), &pairList)
 	return
 }

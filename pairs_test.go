@@ -40,6 +40,12 @@ func (m *mockHTTPPairsValid) Do(req *http.Request) (*http.Response, error) {
 		return resp, fmt.Errorf(`{"success": false,"message": "Not Found"}`)
 	}
 
+	// Invalid (by id)
+	if req.URL.String() == apiEndpoint+"/pairs/bad-status-code" {
+		resp.StatusCode = http.StatusExpectationFailed
+		resp.Body = ioutil.NopCloser(bytes.NewBuffer([]byte(``)))
+	}
+
 	// Default is valid
 	return resp, nil
 }
@@ -110,6 +116,7 @@ func TestClient_GetPair(t *testing.T) {
 	}{
 		{"12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8", "12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8", false, http.StatusOK},
 		{"bad-pair-id", "", true, http.StatusNotFound},
+		{"bad-status-code", "", true, http.StatusExpectationFailed},
 	}
 
 	// Test all
