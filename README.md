@@ -1,12 +1,12 @@
 # go-preev
 > The unofficial golang implementation for the [Preev.pro API](https://preev.pro/api/)
 
-[![Release](https://img.shields.io/github/release-pre/mrz1836/go-preev.svg?logo=github&style=flat&v=3)](https://github.com/mrz1836/go-preev/releases)
-[![Build Status](https://travis-ci.com/mrz1836/go-preev.svg?branch=master&v=3)](https://travis-ci.com/mrz1836/go-preev)
-[![Report](https://goreportcard.com/badge/github.com/mrz1836/go-preev?style=flat&v=3)](https://goreportcard.com/report/github.com/mrz1836/go-preev)
-[![codecov](https://codecov.io/gh/mrz1836/go-preev/branch/master/graph/badge.svg?v=3)](https://codecov.io/gh/mrz1836/go-preev)
-[![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-preev?v=3)](https://golang.org/)
-[![Sponsor](https://img.shields.io/badge/sponsor-MrZ-181717.svg?logo=github&style=flat&v=3)](https://github.com/sponsors/mrz1836)
+[![Release](https://img.shields.io/github/release-pre/mrz1836/go-preev.svg?logo=github&style=flat&v=4)](https://github.com/mrz1836/go-preev/releases)
+[![Build Status](https://travis-ci.com/mrz1836/go-preev.svg?branch=master&v=4)](https://travis-ci.com/mrz1836/go-preev)
+[![Report](https://goreportcard.com/badge/github.com/mrz1836/go-preev?style=flat&v=4)](https://goreportcard.com/report/github.com/mrz1836/go-preev)
+[![codecov](https://codecov.io/gh/mrz1836/go-preev/branch/master/graph/badge.svg?v=4)](https://codecov.io/gh/mrz1836/go-preev)
+[![Go](https://img.shields.io/github/go-mod/go-version/mrz1836/go-preev?v=4)](https://golang.org/)
+[![Sponsor](https://img.shields.io/badge/sponsor-MrZ-181717.svg?logo=github&style=flat&v=4)](https://github.com/sponsors/mrz1836)
 [![Donate](https://img.shields.io/badge/donate-bitcoin-ff9900.svg?logo=bitcoin&style=flat)](https://mrz1818.com/?tab=tips&af=go-preev)
 
 <br/>
@@ -181,4 +181,4 @@ or by making a [**bitcoin donation**](https://mrz1818.com/?tab=tips&af=go-preev)
 
 ## License
 
-![License](https://img.shields.io/github/license/mrz1836/go-preev.svg?style=flat&v=3)
+![License](https://img.shields.io/github/license/mrz1836/go-preev.svg?style=flat&v=4)
