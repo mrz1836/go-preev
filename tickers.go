@@ -16,7 +16,7 @@ func (c *Client) GetTickers() (tickerList *TickerList, err error) {
 
 	var resp string
 	// https://api.preev.pro/v1/tickers
-	if resp, err = c.Request(fmt.Sprintf("%s/tickers", apiEndpoint), http.MethodGet, nil); err != nil {
+	if resp, err = c.request(fmt.Sprintf("%s/tickers", apiEndpoint), http.MethodGet); err != nil {
 		return
 	}
 
@@ -33,7 +33,7 @@ func (c *Client) GetTicker(pairID string) (ticker *Ticker, err error) {
 
 	var resp string
 	// https://api.preev.pro/v1/tickers/<pair_id>
-	if resp, err = c.Request(fmt.Sprintf("%s/tickers/%s", apiEndpoint, pairID), http.MethodGet, nil); err != nil {
+	if resp, err = c.request(fmt.Sprintf("%s/tickers/%s", apiEndpoint, pairID), http.MethodGet); err != nil {
 		return
 	}
 
@@ -85,7 +85,7 @@ func (c *Client) GetTickerHistory(pairID string, start, end, interval int64) (ti
 
 	var resp string
 	// https://api.preev.pro/v1/tickers/<pair_id>/historical
-	if resp, err = c.Request(endpoint.String(), http.MethodGet, nil); err != nil {
+	if resp, err = c.request(endpoint.String(), http.MethodGet); err != nil {
 		return
 	}
 

@@ -12,7 +12,7 @@ import (
 const (
 
 	// version is the current version
-	version = "v0.0.1"
+	version = "v0.1.1"
 
 	// defaultUserAgent is the default user agent for all requests
 	defaultUserAgent string = "go-preev: " + version
@@ -79,15 +79,24 @@ func ClientDefaultOptions() (clientOptions *Options) {
 }
 
 // createClient will make a new http client based on the options provided
-func createClient(options *Options) (c *Client) {
+func createClient(options *Options, customHTTPClient *http.Client) (c *Client) {
 
 	// Create a client
 	c = new(Client)
+	c.LastRequest = new(LastRequest)
+
+	// Is there a custom HTTP client to use?
+	if customHTTPClient != nil {
+		c.httpClient = customHTTPClient
+		return
+	}
 
 	// Set options (either default or user modified)
 	if options == nil {
 		options = ClientDefaultOptions()
 	}
+
+	c.UserAgent = options.UserAgent
 
 	// dial is the net dialer for clientDefaultTransport
 	dial := &net.Dialer{KeepAlive: options.DialerKeepAlive, Timeout: options.DialerTimeout}
@@ -131,8 +140,5 @@ func createClient(options *Options) (c *Client) {
 		)
 	}
 
-	// Create a last request
-	c.LastRequest = new(LastRequest)
-	c.UserAgent = options.UserAgent
 	return
 }

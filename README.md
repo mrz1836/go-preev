@@ -41,7 +41,8 @@ View the generated [documentation](https://pkg.go.dev/github.com/mrz1836/go-pree
 ### Features
 - [Client](client.go) is completely configurable
 - Customize the network per request (`main`, `test` or `stn`)
-- Using [heimdall http client](https://github.com/gojek/heimdall) with exponential backoff & more
+- Using default [heimdall http client](https://github.com/gojek/heimdall) with exponential backoff & more
+- Use you own HTTP client
 - Current coverage for the [Preev.pro API](https://preev.pro/api/)
     - [x] Pairs
         - [x] Get All Pairs
@@ -145,7 +146,7 @@ import (
 func main() {
 
     // Create a client
-    client := preev.NewClient(nil) 
+    client := preev.NewClient(nil, nil) 
     
     // Get pairs
     pairs, _ := client.GetPairs()

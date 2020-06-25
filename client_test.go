@@ -2,6 +2,7 @@ package preev
 
 import (
 	"fmt"
+	"net/http"
 	"testing"
 	"time"
 )
@@ -10,24 +11,35 @@ import (
 func TestNewClient(t *testing.T) {
 	t.Parallel()
 
-	client := NewClient(nil)
+	client := NewClient(nil, nil)
 
 	if len(client.UserAgent) == 0 {
 		t.Fatal("missing user agent")
 	}
 }
 
+// TestNewClient_CustomHttpClient test new client with custom HTTP client
+func TestNewClient_CustomHttpClient(t *testing.T) {
+	t.Parallel()
+
+	client := NewClient(nil, http.DefaultClient)
+
+	if len(client.UserAgent) != 0 {
+		t.Fatal("user agent should be empty if using a custom client")
+	}
+}
+
 // ExampleNewClient example using NewClient()
 func ExampleNewClient() {
-	client := NewClient(nil)
+	client := NewClient(nil, nil)
 	fmt.Println(client.UserAgent)
-	// Output:go-preev: v0.0.1
+	// Output:go-preev: v0.1.1
 }
 
 // BenchmarkNewClient benchmarks the NewClient method
 func BenchmarkNewClient(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		_ = NewClient(nil)
+		_ = NewClient(nil, nil)
 	}
 }
 
@@ -94,7 +106,7 @@ func TestClientDefaultOptions(t *testing.T) {
 func TestClientDefaultOptions_NoRetry(t *testing.T) {
 	options := ClientDefaultOptions()
 	options.RequestRetryCount = 0
-	client := NewClient(options)
+	client := NewClient(options, nil)
 
 	if client.UserAgent != defaultUserAgent {
 		t.Errorf("user agent mismatch")

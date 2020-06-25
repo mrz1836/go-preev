@@ -5,7 +5,7 @@ Example:
 
 ```
 // Create a client
-client := preev.NewClient(nil)
+client := preev.NewClient(nil,nil)
 
 // Get pairs
 pairs, _ := client.GetPairs()
@@ -21,12 +21,12 @@ import (
 )
 
 // NewClient creates a new client for Preev requests
-func NewClient(clientOptions *Options) *Client {
-	return createClient(clientOptions)
+func NewClient(clientOptions *Options, customHTTPClient *http.Client) *Client {
+	return createClient(clientOptions, customHTTPClient)
 }
 
-// Request is a generic request wrapper that can be used without constraints
-func (c *Client) Request(url string, method string, payload []byte) (response string, err error) {
+// request is a generic request wrapper that can be used without constraints
+func (c *Client) request(url, method string) (response string, err error) {
 
 	// Store for debugging purposes
 	c.LastRequest.Method = method

@@ -12,7 +12,7 @@ import (
 
 func main() {
 	// Create a new client
-	client := preev.NewClient(nil)
+	client := preev.NewClient(nil, nil)
 
 	//
 	// Get active pairs
