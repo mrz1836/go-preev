@@ -42,7 +42,7 @@ View the generated [documentation](https://pkg.go.dev/github.com/mrz1836/go-pree
 - [Client](client.go) is completely configurable
 - Customize the network per request (`main`, `test` or `stn`)
 - Using default [heimdall http client](https://github.com/gojek/heimdall) with exponential backoff & more
-- Use you own HTTP client
+- Use your own HTTP client
 - Current coverage for the [Preev.pro API](https://preev.pro/api/)
     - [x] Pairs
         - [x] Get All Pairs
