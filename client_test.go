@@ -33,7 +33,7 @@ func TestNewClient_CustomHttpClient(t *testing.T) {
 func ExampleNewClient() {
 	client := NewClient(nil, nil)
 	fmt.Println(client.UserAgent)
-	// Output:go-preev: v0.1.1
+	// Output:go-preev: v0.2.1
 }
 
 // BenchmarkNewClient benchmarks the NewClient method
