@@ -16,6 +16,7 @@ fmt.Println("Found Active Pair(s):", pairs.BsvUsd.Name)
 package preev
 
 import (
+	"context"
 	"io/ioutil"
 	"net/http"
 )
@@ -26,15 +27,15 @@ func NewClient(clientOptions *Options, customHTTPClient *http.Client) *Client {
 }
 
 // request is a generic request wrapper that can be used without constraints
-func (c *Client) request(url, method string) (response string, err error) {
+func (c *Client) request(url string) (response string, err error) {
 
 	// Store for debugging purposes
-	c.LastRequest.Method = method
+	c.LastRequest.Method = http.MethodGet
 	c.LastRequest.URL = url
 
 	// Start the request
 	var request *http.Request
-	if request, err = http.NewRequest(method, url, nil); err != nil {
+	if request, err = http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil); err != nil {
 		return
 	}
 
