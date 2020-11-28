@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // mockHTTPTickersValid for mocking requests
@@ -100,27 +102,25 @@ func (m *mockHTTPTickersInvalid) Do(req *http.Request) (*http.Response, error) {
 func TestClient_GetTickers(t *testing.T) {
 	t.Parallel()
 
-	// New mock client
-	client := newMockClient(&mockHTTPTickersValid{})
+	t.Run("valid case", func(t *testing.T) {
+		client := newMockClient(&mockHTTPTickersValid{})
 
-	// Test the valid response
-	tickers, err := client.GetTickers()
-	if err != nil {
-		t.Errorf("%s Failed: error [%s]", t.Name(), err.Error())
-	} else if tickers == nil {
-		t.Errorf("%s Failed: tickers was nil", t.Name())
-	} else if tickers.BsvUsd.ID != "12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8" {
-		t.Errorf("%s Failed: pair id was not as expected, pair id was %s", t.Name(), tickers.BsvUsd.ID)
-	}
+		tickers, err := client.GetTickers()
+		assert.NoError(t, err)
+		assert.NotNil(t, client)
+		assert.NotNil(t, tickers)
+		assert.Equal(t, "12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8", tickers.BsvUsd.ID)
 
-	// New invalid mock client
-	client = newMockClient(&mockHTTPTickersInvalid{})
+	})
 
-	// Test invalid response
-	_, err = client.GetTickers()
-	if err == nil {
-		t.Errorf("%s Failed: error should have occurred", t.Name())
-	}
+	t.Run("invalid case", func(t *testing.T) {
+		client := newMockClient(&mockHTTPTickersInvalid{})
+		assert.NotNil(t, client)
+
+		tickers, err := client.GetTickers()
+		assert.Nil(t, tickers)
+		assert.Error(t, err)
+	})
 }
 
 // TestClient_GetTicker tests the GetTicker()

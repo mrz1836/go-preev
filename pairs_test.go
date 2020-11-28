@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // mockHTTPPairsValid for mocking requests
@@ -77,27 +79,23 @@ func (m *mockHTTPPairsInvalid) Do(req *http.Request) (*http.Response, error) {
 func TestClient_GetPairs(t *testing.T) {
 	t.Parallel()
 
-	// New mock client
-	client := newMockClient(&mockHTTPPairsValid{})
+	t.Run("valid case", func(t *testing.T) {
+		client := newMockClient(&mockHTTPPairsValid{})
 
-	// Test the valid response
-	pairs, err := client.GetPairs()
-	if err != nil {
-		t.Errorf("%s Failed: error [%s]", t.Name(), err.Error())
-	} else if pairs == nil {
-		t.Errorf("%s Failed: pairs was nil", t.Name())
-	} else if pairs.BsvUsd.ID != "12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8" {
-		t.Errorf("%s Failed: pair id was not as expected, pair id was %s", t.Name(), pairs.BsvUsd.ID)
-	}
+		pairs, err := client.GetPairs()
+		assert.NoError(t, err)
+		assert.NotNil(t, pairs)
+		assert.Equal(t, "12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8", pairs.BsvUsd.ID)
+	})
 
-	// New invalid mock client
-	client = newMockClient(&mockHTTPPairsInvalid{})
+	t.Run("invalid case", func(t *testing.T) {
+		client := newMockClient(&mockHTTPPairsInvalid{})
+		assert.NotNil(t, client)
 
-	// Test invalid response
-	_, err = client.GetPairs()
-	if err == nil {
-		t.Errorf("%s Failed: error should have occurred", t.Name())
-	}
+		pairs, err := client.GetPairs()
+		assert.Error(t, err)
+		assert.Nil(t, pairs)
+	})
 }
 
 // TestClient_GetPair tests the GetPair()
