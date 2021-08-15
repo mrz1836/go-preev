@@ -2,6 +2,7 @@ package preev
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -105,7 +106,7 @@ func TestClient_GetTickers(t *testing.T) {
 	t.Run("valid case", func(t *testing.T) {
 		client := newMockClient(&mockHTTPTickersValid{})
 
-		tickers, err := client.GetTickers()
+		tickers, err := client.GetTickers(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, client)
 		assert.NotNil(t, tickers)
@@ -117,7 +118,7 @@ func TestClient_GetTickers(t *testing.T) {
 		client := newMockClient(&mockHTTPTickersInvalid{})
 		assert.NotNil(t, client)
 
-		tickers, err := client.GetTickers()
+		tickers, err := client.GetTickers(context.Background())
 		assert.Nil(t, tickers)
 		assert.Error(t, err)
 	})
@@ -144,7 +145,7 @@ func TestClient_GetTicker(t *testing.T) {
 
 	// Test all
 	for _, test := range tests {
-		if output, err := client.GetTicker(test.input); err == nil && test.expectedError {
+		if output, err := client.GetTicker(context.Background(), test.input); err == nil && test.expectedError {
 			t.Errorf("%s Failed: expected to throw an error, no error [%s] inputted", t.Name(), test.input)
 		} else if err != nil && !test.expectedError {
 			t.Errorf("%s Failed: [%s] inputted, received: [%v] error [%s]", t.Name(), test.input, output, err.Error())
@@ -182,7 +183,9 @@ func TestClient_GetTickerHistory(t *testing.T) {
 
 	// Test all
 	for _, test := range tests {
-		if output, err := client.GetTickerHistory(test.input, test.start, test.end, test.interval); err == nil && test.expectedError {
+		if output, err := client.GetTickerHistory(
+			context.Background(), test.input, test.start, test.end, test.interval,
+		); err == nil && test.expectedError {
 			t.Errorf("%s Failed: expected to throw an error, no error [%s] inputted", t.Name(), test.input)
 		} else if err != nil && !test.expectedError {
 			t.Errorf("%s Failed: [%s] inputted, received: [%v] error [%s]", t.Name(), test.input, output, err.Error())

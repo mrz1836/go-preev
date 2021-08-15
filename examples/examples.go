@@ -4,6 +4,7 @@ Package main is a basic example to use the go-preev package
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -17,7 +18,7 @@ func main() {
 	//
 	// Get active pairs
 	//
-	pairs, err := client.GetPairs()
+	pairs, err := client.GetPairs(context.Background())
 	if err != nil {
 		log.Fatal("error: ", err.Error())
 	} else if pairs == nil {
@@ -30,7 +31,7 @@ func main() {
 	// Get the details of a specific pair
 	//
 	var pair *preev.Pair
-	pair, err = client.GetPair(pairs.BsvUsd.ID)
+	pair, err = client.GetPair(context.Background(), pairs.BsvUsd.ID)
 	if err != nil {
 		log.Fatal("error: ", err.Error())
 	} else if pair == nil {
@@ -43,7 +44,7 @@ func main() {
 	// Get active tickers
 	//
 	var tickers *preev.TickerList
-	tickers, err = client.GetTickers()
+	tickers, err = client.GetTickers(context.Background())
 	if err != nil {
 		log.Fatal("error: ", err.Error())
 	} else if tickers == nil {
@@ -56,7 +57,7 @@ func main() {
 	// Get ticker by pair id
 	//
 	var ticker *preev.Ticker
-	ticker, err = client.GetTicker(pair.ID)
+	ticker, err = client.GetTicker(context.Background(), pair.ID)
 	if err != nil {
 		log.Fatal("error: ", err.Error())
 	} else if ticker == nil {
@@ -69,8 +70,9 @@ func main() {
 	// Get ticker history
 	//
 	var tickerHistory []*preev.Ticker
-	tickerHistory, err = client.GetTickerHistory(pair.ID, 1592950680, 1592951700, 10)
-	if err != nil {
+	if tickerHistory, err = client.GetTickerHistory(
+		context.Background(), pair.ID, 1592950680, 1592951700, 10,
+	); err != nil {
 		log.Fatal("error: ", err.Error())
 	} else if len(tickerHistory) == 0 {
 		log.Fatal("no results for ticker history?")

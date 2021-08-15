@@ -2,6 +2,7 @@ package preev
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -82,7 +83,7 @@ func TestClient_GetPairs(t *testing.T) {
 	t.Run("valid case", func(t *testing.T) {
 		client := newMockClient(&mockHTTPPairsValid{})
 
-		pairs, err := client.GetPairs()
+		pairs, err := client.GetPairs(context.Background())
 		assert.NoError(t, err)
 		assert.NotNil(t, pairs)
 		assert.Equal(t, "12eLTxv1vyUeJtp5zqWbqpdWvfLdZ7dGf8", pairs.BsvUsd.ID)
@@ -92,7 +93,7 @@ func TestClient_GetPairs(t *testing.T) {
 		client := newMockClient(&mockHTTPPairsInvalid{})
 		assert.NotNil(t, client)
 
-		pairs, err := client.GetPairs()
+		pairs, err := client.GetPairs(context.Background())
 		assert.Error(t, err)
 		assert.Nil(t, pairs)
 	})
@@ -119,7 +120,7 @@ func TestClient_GetPair(t *testing.T) {
 
 	// Test all
 	for _, test := range tests {
-		if output, err := client.GetPair(test.input); err == nil && test.expectedError {
+		if output, err := client.GetPair(context.Background(), test.input); err == nil && test.expectedError {
 			t.Errorf("%s Failed: expected to throw an error, no error [%s] inputted", t.Name(), test.input)
 		} else if err != nil && !test.expectedError {
 			t.Errorf("%s Failed: [%s] inputted, received: [%v] error [%s]", t.Name(), test.input, output, err.Error())
