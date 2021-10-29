@@ -130,7 +130,7 @@ make bench
 <br/>
 
 ## Code Standards
-Read more about this Go project's [code standards](CODE_STANDARDS.md).
+Read more about this Go project's [code standards](.github/CODE_STANDARDS.md).
 
 <br/>
 
@@ -169,7 +169,7 @@ func main() {
 <br/>
 
 ## Contributing
-View the [contributing guidelines](CONTRIBUTING.md) and please follow the [code of conduct](CODE_OF_CONDUCT.md).
+View the [contributing guidelines](.github/CONTRIBUTING.md) and please follow the [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 ### How can I help?
 All kinds of contributions are welcome :raised_hands:! 
