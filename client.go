@@ -12,7 +12,7 @@ import (
 const (
 
 	// version is the current version
-	version = "v0.2.5"
+	version = "v0.2.6"
 
 	// defaultUserAgent is the default user agent for all requests
 	defaultUserAgent string = "go-preev: " + version

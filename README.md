@@ -107,7 +107,7 @@ vet                  Run the Go vet application
 
 ## Examples & Tests
 All unit tests and [examples](examples) run via [Github Actions](https://github.com/mrz1836/go-preev/actions) and
-uses [Go version 1.15.x](https://golang.org/doc/go1.15). View the [configuration file](.github/workflows/run-tests.yml).
+uses [Go version 1.16.x](https://golang.org/doc/go1.16). View the [configuration file](.github/workflows/run-tests.yml).
 
 Run all tests (including integration tests)
 ```shell script
@@ -138,23 +138,25 @@ Read more about this Go project's [code standards](.github/CODE_STANDARDS.md).
 View the [preev examples](examples/examples.go)
 
 Basic implementation:
+
 ```go
 package main
 
 import (
-    "fmt"
-    
-    "github.com/mrz1836/go-preev"
+	"context"
+	"fmt"
+
+	"github.com/mrz1836/go-preev"
 )
 
 func main() {
 
-    // Create a client
-    client := preev.NewClient(nil, nil) 
-    
-    // Get pairs
-    pairs, _ := client.GetPairs()
-	
+	// Create a client
+	client := preev.NewClient(nil, nil)
+
+	// Get pairs
+	pairs, _ := client.GetPairs(context.Background())
+
 	fmt.Println("Found Active Pair(s):", pairs.BsvUsd.Name)
 }
 ```
@@ -163,8 +165,8 @@ func main() {
 
 ## Maintainers
 | [<img src="https://github.com/mrz1836.png" height="50" alt="MrZ" />](https://github.com/mrz1836) |
-|:---:|
-| [MrZ](https://github.com/mrz1836) |
+|:------------------------------------------------------------------------------------------------:|
+|                                [MrZ](https://github.com/mrz1836)                                 |
               
 <br/>
 
