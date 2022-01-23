@@ -12,7 +12,7 @@ import (
 const (
 
 	// version is the current version
-	version = "v0.2.6"
+	version = "v0.3.0"
 
 	// defaultUserAgent is the default user agent for all requests
 	defaultUserAgent string = "go-preev: " + version
@@ -21,16 +21,16 @@ const (
 	apiEndpoint string = "https://api.preev.pro/v1"
 )
 
-// httpInterface is used for the http client (mocking heimdall)
-type httpInterface interface {
+// HTTPInterface is used for the http client (mocking heimdall)
+type HTTPInterface interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
 // Client is the parent struct that wraps the heimdall client
 type Client struct {
-	httpClient  httpInterface // carries out the http operations (heimdall client)
-	LastRequest *LastRequest  // is the raw information from the last request
-	UserAgent   string        // optional for changing user agents
+	httpClient  HTTPInterface // carries out the http operations (heimdall client)
+	lastRequest *LastRequest  // is the raw information from the last request
+	userAgent   string        // optional for changing user agents
 }
 
 // Options holds all the configuration for connection, dialer and transport
@@ -78,17 +78,22 @@ func ClientDefaultOptions() (clientOptions *Options) {
 	}
 }
 
+// LastRequest will return the last request information
+func (c *Client) LastRequest() *LastRequest {
+	return c.lastRequest
+}
+
+// UserAgent will return the current user agent
+func (c *Client) UserAgent() string {
+	return c.userAgent
+}
+
 // createClient will make a new http client based on the options provided
-func createClient(options *Options, customHTTPClient *http.Client) (c *Client) {
+func createClient(options *Options, customHTTPClient HTTPInterface) (c *Client) {
 
 	// Create a client
-	c = new(Client)
-	c.LastRequest = new(LastRequest)
-
-	// Is there a custom HTTP client to use?
-	if customHTTPClient != nil {
-		c.httpClient = customHTTPClient
-		return
+	c = &Client{
+		lastRequest: &LastRequest{},
 	}
 
 	// Set options (either default or user modified)
@@ -96,7 +101,13 @@ func createClient(options *Options, customHTTPClient *http.Client) (c *Client) {
 		options = ClientDefaultOptions()
 	}
 
-	c.UserAgent = options.UserAgent
+	c.userAgent = options.UserAgent
+
+	// Is there a custom HTTP client to use?
+	if customHTTPClient != nil {
+		c.httpClient = customHTTPClient
+		return
+	}
 
 	// dial is the net dialer for clientDefaultTransport
 	dial := &net.Dialer{KeepAlive: options.DialerKeepAlive, Timeout: options.DialerTimeout}

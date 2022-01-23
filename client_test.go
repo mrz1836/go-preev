@@ -15,7 +15,7 @@ func TestNewClient(t *testing.T) {
 
 	client := NewClient(nil, nil)
 
-	assert.NotEqual(t, "", client.UserAgent)
+	assert.NotEqual(t, "", client.UserAgent())
 	assert.NotNil(t, client)
 }
 
@@ -24,16 +24,14 @@ func TestNewClient_CustomHttpClient(t *testing.T) {
 	t.Parallel()
 
 	client := NewClient(nil, http.DefaultClient)
-
-	assert.Equal(t, "", client.UserAgent)
 	assert.NotNil(t, client)
 }
 
 // ExampleNewClient example using NewClient()
 func ExampleNewClient() {
 	client := NewClient(nil, nil)
-	fmt.Println(client.UserAgent)
-	// Output:go-preev: v0.2.6
+	fmt.Println(client.UserAgent())
+	// Output:go-preev: v0.3.0
 }
 
 // BenchmarkNewClient benchmarks the NewClient method

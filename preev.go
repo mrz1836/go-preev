@@ -4,10 +4,10 @@ Package preev is the unofficial golang implementation for the Preev.pro API
 Example:
 
 ```
-// Create a client
-client := preev.NewClient(nil,nil)
+// Create a client:
+client := preev.NewClient(nil, nil)
 
-// Get pairs
+// Get pairs:
 pairs, _ := client.GetPairs()
 
 fmt.Println("Found Active Pair(s):", pairs.BsvUsd.Name)
@@ -22,7 +22,7 @@ import (
 )
 
 // NewClient creates a new client for Preev requests
-func NewClient(clientOptions *Options, customHTTPClient *http.Client) *Client {
+func NewClient(clientOptions *Options, customHTTPClient HTTPInterface) ClientInterface {
 	return createClient(clientOptions, customHTTPClient)
 }
 
@@ -30,8 +30,8 @@ func NewClient(clientOptions *Options, customHTTPClient *http.Client) *Client {
 func (c *Client) request(ctx context.Context, url string) (response string, err error) {
 
 	// Store for debugging purposes
-	c.LastRequest.Method = http.MethodGet
-	c.LastRequest.URL = url
+	c.lastRequest.Method = http.MethodGet
+	c.lastRequest.URL = url
 
 	// Start the request
 	var request *http.Request
@@ -42,13 +42,13 @@ func (c *Client) request(ctx context.Context, url string) (response string, err 
 	}
 
 	// Change the header (user agent is in case they block default Go user agents)
-	request.Header.Set("User-Agent", c.UserAgent)
+	request.Header.Set("User-Agent", c.UserAgent())
 
 	// Fire the http request
 	var resp *http.Response
 	if resp, err = c.httpClient.Do(request); err != nil {
 		if resp != nil {
-			c.LastRequest.StatusCode = resp.StatusCode
+			c.lastRequest.StatusCode = resp.StatusCode
 		}
 		return
 	}
@@ -59,7 +59,7 @@ func (c *Client) request(ctx context.Context, url string) (response string, err 
 	}()
 
 	// Set the status
-	c.LastRequest.StatusCode = resp.StatusCode
+	c.lastRequest.StatusCode = resp.StatusCode
 
 	// Read the body
 	var body []byte

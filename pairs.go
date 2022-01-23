@@ -38,7 +38,7 @@ func (c *Client) GetPair(ctx context.Context, pairID string) (pair *Pair, err er
 	}
 
 	// Status was not as expected?
-	if c.LastRequest.StatusCode != http.StatusOK {
+	if c.lastRequest.StatusCode != http.StatusOK {
 		err = fmt.Errorf("error from Preev: %s", resp)
 		return
 	}

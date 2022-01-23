@@ -151,8 +151,8 @@ func TestClient_GetTicker(t *testing.T) {
 			t.Errorf("%s Failed: [%s] inputted, received: [%v] error [%s]", t.Name(), test.input, output, err.Error())
 		} else if output != nil && output.ID != test.expected && !test.expectedError {
 			t.Errorf("%s Failed: [%s] inputted and [%s] expected, received: [%s]", t.Name(), test.input, test.expected, output.ID)
-		} else if client.LastRequest.StatusCode != test.statusCode {
-			t.Errorf("%s Expected status code to be %d, got %d, [%s] inputted", t.Name(), test.statusCode, client.LastRequest.StatusCode, test.input)
+		} else if client.LastRequest().StatusCode != test.statusCode {
+			t.Errorf("%s Expected status code to be %d, got %d, [%s] inputted", t.Name(), test.statusCode, client.LastRequest().StatusCode, test.input)
 		}
 	}
 
@@ -191,8 +191,8 @@ func TestClient_GetTickerHistory(t *testing.T) {
 			t.Errorf("%s Failed: [%s] inputted, received: [%v] error [%s]", t.Name(), test.input, output, err.Error())
 		} else if err == nil && len(output) > 0 && output[0].Tx.Hash != test.expected && !test.expectedError {
 			t.Errorf("%s Failed: [%s] inputted and [%s] expected, received: [%v]", t.Name(), test.input, test.expected, output[0].Tx.Hash)
-		} else if client.LastRequest.StatusCode != test.statusCode {
-			t.Errorf("%s Expected status code to be %d, got %d, [%s] inputted", t.Name(), test.statusCode, client.LastRequest.StatusCode, test.input)
+		} else if client.LastRequest().StatusCode != test.statusCode {
+			t.Errorf("%s Expected status code to be %d, got %d, [%s] inputted", t.Name(), test.statusCode, client.LastRequest().StatusCode, test.input)
 		}
 	}
 }
